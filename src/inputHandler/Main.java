@@ -63,8 +63,6 @@ public class Main extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-    	//String x = request.getParameter("x");
-    	//String y = request.getParameter("y");
 	    StringBuilder sb = new StringBuilder();
 	    BufferedReader reader = request.getReader();
 	    try {
