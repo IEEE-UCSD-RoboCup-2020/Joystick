@@ -48,13 +48,24 @@ spin.on('move', function (evt, data) {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", '/Joystick/Main', true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.send(JSON.stringify({
-	    left_dist: data.distance, 
-	    left_angl: data.angle.radian,
-	    righ_dist: -1,
-	    righ_angl: -1,
-	    shoot:     false,
-	}));
+	if (shoot_mode) {
+		xhr.send(JSON.stringify({
+			left_dist:  data.distance, 
+			left_angl:  data.angle.radian,
+			right_dist: -1,
+			right_angl: -1,
+			shoot:     false,
+			shoot_mode: true,
+		}));
+	} else {
+		xhr.send(JSON.stringify({
+			left_dist:  data.distance, 
+			left_angl:  data.angle.radian,
+			right_dist: -1,
+			right_angl: -1,
+			shoot:      false,
+		}));
+	}
 });
 
 spin.on('end', function (evt, data) {
@@ -66,8 +77,9 @@ spin.on('end', function (evt, data) {
 		xhr.send(JSON.stringify({
 		    left_dist: dist, 
 		    left_angl: angl,
-		    righ_dist: -1,
-		    shoot:     true,
+		    right_dist: -1,
+			shoot:     true,
+			shoot_mode: false,
 		}));
 		back.className = "back";
 		shoot_mode = false;
@@ -79,7 +91,7 @@ spin.on('end', function (evt, data) {
 		xhr.send(JSON.stringify({
 		    left_dist: 0,
 		    left_angl: 0,
-		    righ_dist: -1,
+			right_dist: -1,
 		}));
 	}
 });
@@ -90,8 +102,8 @@ direction.on('move',function (evt, data){
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 	    left_dist: -1,
-	    righ_dist: data.distance,
-	    righ_angl: data.angle.radian,
+	    right_dist: data.distance,
+	    right_angl: data.angle.radian,
 	}));
 });
 
@@ -101,7 +113,7 @@ direction.on('end',function (evt, data){
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.send(JSON.stringify({
 	    left_dist: -1,
-	    righ_dist: 0,
-	    righ_angl: 0,
+	    right_dist: 0,
+	    right_angl: 0,
 	}));
 });
