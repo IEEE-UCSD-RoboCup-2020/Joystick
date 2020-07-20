@@ -26,7 +26,8 @@ import inputHandler.VFirmwareAPI.Vec_2D;
 public class Main extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	static final double HALF_JOY_SIZE = 87.5;
+	static final float HALF_JOY_SIZE = (float) 87.5;
+	static final float SCALE = (float) 100.0;
 
 	static Gson gson;
 	static Nipple n;
@@ -93,24 +94,24 @@ public class Main extends HttpServlet {
 		double right_y = n.right_dist * Math.sin(n.right_angl) / HALF_JOY_SIZE;
 
 		Vec_2D.Builder translationalOutput = Vec_2D.newBuilder();
-		translationalOutput.setX((float) right_x);
-		translationalOutput.setY((float) right_y);
+		translationalOutput.setX((float) right_x * SCALE);
+		translationalOutput.setY((float) right_y * SCALE);
 		vfb.setTranslationalOutput(translationalOutput);
 
 		Vec_2D.Builder kicker = Vec_2D.newBuilder();
 		if (temp.shoot_mode) {
-			kicker.setX(0.0f);
+			kicker.setX(0.0f * SCALE);
 			vfb.setRotationalOutput(0.0f);
 			n.left_angl = 0.0f;
 			n.left_dist = 0.0f;
 		} else {
 			if (temp.shoot) {
-				kicker.setX((float) left_x);
-				kicker.setY((float) left_y);
+				kicker.setX((float) left_x * SCALE);
+				kicker.setY((float) left_y * SCALE);
 				n.left_angl = 0.0f;
 				n.left_dist = 0.0f;
 			} else {
-				vfb.setRotationalOutput((float) left_x);
+				vfb.setRotationalOutput((float) left_x * SCALE);
 			}
 		}
 		kicker.build();
