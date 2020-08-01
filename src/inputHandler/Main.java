@@ -26,13 +26,15 @@ import inputHandler.VFirmwareAPI.Vec_2D;
 public class Main extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	static final float HALF_JOY_SIZE = (float) 87.5;
+	static final float HALF_JOY_SIZE = (float) 150.0;
 	static final float SCALE = (float) 100.0;
 
 	static Gson gson;
 	static Nipple n;
 	static VF_Commands.Builder vfb;
 	static InetAddress address;
+	static int port;
+	static boolean drib = true;
 	static DatagramSocket socket;
 
 	@Override
@@ -43,6 +45,7 @@ public class Main extends HttpServlet {
 
 		try {
 			address = InetAddress.getByName("45.51.1.182");
+			port = 8889;
 			socket = new DatagramSocket();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -77,8 +80,35 @@ public class Main extends HttpServlet {
 		} finally {
 			reader.close();
 		}
+		
+		String reqStr = sb.toString();
+		System.out.println(reqStr);
+		
+		
+		if(!reqStr.startsWith("{")) { // Not JSON
+			/* Dribbler */
+			if (reqStr.startsWith("DribOn")) {
+				drib = true;
+			} else if (reqStr.startsWith("DribOff")) {
+				drib = false;
+			} else {
+				/* IP and Port Info */
+				PrintWriter printWriter = response.getWriter();
+				try {
+					int sep = reqStr.indexOf(',');
+					address = InetAddress.getByName(reqStr.substring(0, sep));
+					port = Integer.parseInt(reqStr.substring(sep + 1).trim());
+					printWriter.print("Success");
+				} catch(Exception e) {
+					printWriter.print("Failure");
+				}
+			}
+			return;
+		}
+		
+		/* Control Signal */
 
-		Nipple temp = gson.fromJson(sb.toString(), Nipple.class);
+		Nipple temp = gson.fromJson(reqStr, Nipple.class);
 
 		if (temp.left_dist < 0) {
 			n.right_dist = temp.right_dist;
@@ -115,14 +145,14 @@ public class Main extends HttpServlet {
 			}
 		}
 		kicker.build();
+		vfb.setDribbler(drib);
 		vfb.setKicker(kicker);
-		vfb.setDribbler(true);
 
 		VF_Commands commands = vfb.build();
 		System.out.println(commands);
 
 		byte[] buf = commands.toByteArray();
-		DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 8889);
+		DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
 
 		try {
 			socket.send(packet);

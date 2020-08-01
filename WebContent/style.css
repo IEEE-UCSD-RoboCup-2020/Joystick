@@ -1,10 +1,131 @@
-body {
-  min-height: 100vh;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-align: center;
-          align-items: center;
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,300,800);
+* {
+  box-sizing: border-box;
 }
+
+html,
+body {
+  overflow-x: hidden;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  color: #fff;
+}
+
+/* Input starts here */
+
+.row {
+  width: 100%;
+  padding: 0px 10%;
+  z-index: 1;
+  text-align: center;
+}
+.top {
+  position: relative;
+  top: 0;
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+}
+.row span {
+  position: relative;
+  display: inline-block;
+  margin: 20px auto;
+}
+
+.button {
+  display: inline-block;
+  width: 100px;
+  padding: 10px 0;
+  font-family: "Open Sans", sans;
+  font-weight: 200;
+  background: #5790DC;
+  color: white;
+  text-shadow: 0 1px 0 rgba(19, 74, 70, 0.4);
+  border: 0;
+  border-radius: 3px;
+  transition: all .3s ease-in-out;
+}
+.button:focus {
+  outline: none; 
+}
+.updating {
+  background: white;
+  color: gray;
+  text-shadow: none;
+}
+
+.card-slide {
+  display: inline-block;
+  width: 270px;
+  padding: 10px 0 10px 15px;
+  font-family: "Open Sans", sans;
+  font-weight: 400;
+  color: #5790DC;
+  background: #efefef;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  text-indent: 115px;
+  transition: all .3s ease-in-out;
+}
+.card-slide::-webkit-input-placeholder {
+  color: #efefef;
+  text-indent: 0;
+  font-weight: 300;
+}
+.card-slide + label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 15px;
+  text-shadow: 0 1px 0 rgba(19, 74, 70, 0.4);
+  background: #5790DC;
+  transition: all .3s ease-in-out;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  transform-origin: right center;
+  transform: perspective(300px) scaleX(1) rotateY(0deg);
+}
+
+span:nth-child(2) .card-slide {
+  text-indent: 55px;
+}
+
+span:nth-child(3) .card-slide {
+  text-indent: 150px;
+}
+
+span:nth-child(2) .card-slide:focus,
+span:nth-child(2) .card-slide:active,
+span:nth-child(3) .card-slide:focus,
+span:nth-child(3) .card-slide:active {
+  text-indent: 0;
+}
+
+.card-slide:focus,
+.card-slide:active {
+  color: #5790DC;
+  text-indent: 0;
+  background: #fff;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.card-slide:focus::-webkit-input-placeholder,
+.card-slide:active::-webkit-input-placeholder {
+  color: #aaa;
+}
+.card-slide:focus + label,
+.card-slide:active + label {
+  transform: perspective(600px) translateX(-100%) rotateY(80deg);
+}
+
+
+
+
+
+/* Joystick starts here */
 
 .joy {
   display: -webkit-box;
@@ -21,8 +142,10 @@ body {
 }
 .joy .nipple .front {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 87.5px !important;
+  height: 87.5px !important;
+  margin-top: -43.75px !important;
+  margin-left: -43.75px !important;
   top: 50%;
   left: 50%;
   -webkit-transform: translateY(-50%), translateX(-50%);
@@ -62,30 +185,21 @@ body {
 }
 .joy .nipple .back {
   position: absolute;
-  width: 175px;
-  height: 175px;
-  left: 0;
-  top: 0;
   background: -webkit-gradient(linear, left top, left bottom, from(#f3f5f7), to(#f9fafc)) !important;
   background: linear-gradient(to bottom, #f3f5f7 0%, #f9fafc 100%) !important;
-  padding: 6px;
 }
 .joy .nipple .back::after {
   position: absolute;
   content: '';
-  width: 163px;
-  height: 163px;
+  width: 280px;
+  height: 280px;
+  margin-top: 10px;
+  margin-left: 10px;
   border-radius: 100%;
   box-shadow: inset 0 0 10px rgba(67, 74, 84, 0.4);
   background: radial-gradient(ellipse at center, #fcfdff 0%, #d8dee7 100%);
 }
 
 .joy .nipple .back.shoot::after {
-  position: absolute;
-  content: '';
-  width: 163px;
-  height: 163px;
-  border-radius: 100%;
-  box-shadow: inset 0 0 10px rgba(67, 74, 84, 0.4);
   background: radial-gradient(ellipse at center, #5790DC 0%, rgb(60, 105, 163) 100%);
 }

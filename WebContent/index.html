@@ -3,14 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Remote Controller</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'><link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
 </head>
 <body>
 
+<div>
+	<div class="row top">
+		<span>
+			<input class="card-slide" id="ip" type="text" placeholder="45.51.1.182" value="45.51.1.182"/><label for="ip">IP Address</label>
+		</span>
+		<span>
+			<input class="card-slide" id="port" type="text" placeholder="8889" value="8889"/><label for="port">Port</label>
+		</span>
+		<span>
+			<button class="button" id="update" onclick="change_ip_port()">Update</button>
+		</span>
+	</div>
+
 	<!-- partial:index.partial.html -->
 	<div class="joy" id="spin"></div>
 	<div class="joy" id="direction"></div>
+
+	<div class="row bottom">
+		<span>
+			<button class="button" id="dribbler" onclick="flip_dribbler()">Drib On</button>
+		</span>
+	</div>
+
+
 	<!-- partial -->
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
 	<script src='https://yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
